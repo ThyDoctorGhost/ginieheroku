@@ -38,7 +38,7 @@ sequelize.sync()
 
 // Pass the sequelize instance to the model
 const User = UserModel(sequelize);  
-const Category = CatModel(sequelize);
+const Category = CategoryModel(sequelize);
 const Product = ProductModel(sequelize);
 
 
