@@ -3,10 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const { Sequelize, DataTypes } = require('sequelize');
 const UserModel = require('./user_model'); // Path to your user model
-const CatModel = require('./category_model');
-const ProductModel = require('./product_model');
-const productRoute = require('./routes/product_routes')
-const userRoute = require('./routes/user_routes')
+
 
 const app = express();
 const port = process.env.PORT || 5050;
@@ -14,7 +11,7 @@ const port = process.env.PORT || 5050;
 
 //SETTING UP ROUTERS
 //app.use('/products', productRoute);
-app.use('/users', userRoute)
+//app.use('/users', userRoute)
 
 app.use(cors());
 app.use(bodyParser.json());
