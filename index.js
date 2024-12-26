@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const { Sequelize, DataTypes } = require('sequelize');
 const UserModel = require('./user_model'); // Path to your user model
+const CategoryModel = require('./category_model');
+const ProductModel = require('./product_model');
 
 
 const app = express();
