@@ -3,9 +3,10 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const { Sequelize, DataTypes } = require('sequelize');
 const UserModel = require('./user_model'); // Path to your user model
-const CategoryModel = require('./category_model');
+const CatModel = require('./category_model');
 const ProductModel = require('./product_model');
-
+const productRoute = require('./routes/product_routes')
+const userRoute = require('./routes/user_routes')
 
 const app = express();
 const port = process.env.PORT || 5050;
@@ -13,7 +14,7 @@ const port = process.env.PORT || 5050;
 
 //SETTING UP ROUTERS
 //app.use('/products', productRoute);
-//app.use('/users', userRoute)
+app.use('/users', userRoute)
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -38,7 +39,7 @@ sequelize.sync()
 
 // Pass the sequelize instance to the model
 const User = UserModel(sequelize);  
-const Category = CategoryModel(sequelize);
+const Category = CatModel(sequelize);
 const Product = ProductModel(sequelize);
 
 
@@ -91,8 +92,8 @@ app.delete('/products/:id', async (req, res) => {
 app.put('/products/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { price, stock } = req.body;
-    const [updatedRows] = await Product.update({ price, stock }, { where: { id } });
+    const { price, stock,description,name,is_available,vendor_id,category_id,sub_category_id,brand } = req.body;
+    const [updatedRows] = await Product.update({ price, stock, description, name, is_available,vendor_id,category_id,sub_category_id,brand }, { where: { id } });
 
     if (updatedRows === 0) {
       return res.status(404).json({ error: 'Product not found' });
@@ -107,10 +108,10 @@ app.put('/products/:id', async (req, res) => {
 
 app.post('/products', async (req, res) => {
   //const {name,vendor_id} = req.body;
-  const {name,vendor_id,category_id,sub_category_id,description,price,image_url,stock,is_available} = req.body;
+  const {name,vendor_id,category_id,sub_category_id,description,brand,price,image_url,stock,is_available} = req.body;
 
   //if(!name || !vendor_id){
-  if(!name || !vendor_id || !category_id || !sub_category_id || !description || !price || !image_url || !stock || !is_available){
+  if(!name || !vendor_id || !category_id || !sub_category_id || !description || !brand || !price || !image_url || !stock || !is_available){
     console.log(res)
     return res.status(400).json({ message: 'Please provide all required fields' });
     
@@ -119,7 +120,7 @@ app.post('/products', async (req, res) => {
   try {
     // Create a new Product
     //const newProduct = await Product.create({name, vendor_id})
-    const newProduct = await Product.create({ name,vendor_id,category_id,sub_category_id,description,price,image_url,stock,is_available });
+    const newProduct = await Product.create({ name,vendor_id,category_id,sub_category_id,description,brand,price,image_url,stock,is_available });
     res.status(201).json({ message: 'Product added successfully', name: newProduct.name });
   } catch (err) {
     console.error('Error adding Product:', err);
@@ -266,7 +267,7 @@ app.post('/categories', async (req, res) => {
 
 
 app.get('/', (req,res) => {
-    res.send('Hello from Ginie Home New')
+    res.send('Hello from Ginie Home')
 })
 
 app.listen(port, () => {
