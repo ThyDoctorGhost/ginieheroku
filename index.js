@@ -14,7 +14,7 @@ const port = process.env.PORT || 5050;
 
 //SETTING UP ROUTERS
 //app.use('/products', productRoute);
-app.use('/users', userRoute)
+//app.use('/users', userRoute)
 
 app.use(cors());
 app.use(bodyParser.json());
